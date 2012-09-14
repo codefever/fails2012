@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block header %}
+    <script type="text/javascript" charset="utf-8" src="/static/jquery.tagcanvas.min.js"></script>
+    <script type="text/javascript">
+
+        function _html_escape(s)
+        {
+            return $('<pre>').text(s).html();
+        }
+
+        $(document).ready(function()
+        {
+            if(!$('#myCanvas').tagcanvas({
+                //options for tagcanvas
+                //textColour: '#ff0000',
+                textColour: null,
+                outlineColour: '#ff00ff',
+                reverse: true,
+                depth: 0.8,
+                maxSpeed: 0.05,
+                //custom by me
+                weight: true,
+                weightMode: 'both',
+                },'tags'))
+            {
+                // something went wrong, hide the canvas container
+                $('#myCanvasContainer').hide();
+            }
+
+            /*
+            $('a.damn').click(function()
+            {
+                $.get('/damn/', {'name':this.text}, function(d)
+                {
+                    content = '<table class="show-tab" cellpadding="0" cellspacing="0"><tbody>';
+                    content += '<tr><td class="show-head">名字</td><td>' + d.name + '</td></tr>';
+                    content += '<tr><td class="show-head">申请时间</td><td>' + d.post_date + '</td></tr>';
+                    content += '<tr><td class="show-head">岗位</td><td>' + d.jobs.join() + '</td></tr>';
+                    content += '<tr><td class="show-head">状态</td><td>' + d.state + '</td></tr>';
+
+                    if (d.reason)
+                    {
+                        content += '<tr><td class="show-head">原因</td><td style="white-space:pre-wrap">' + d.reason + '</td></tr>';
+                    }
+                    if (d.end_date)
+                    {
+                        content += '<tr><td class="show-head">结束时间</td><td>' + d.end_date + '</td></tr>';
+                    }
+                    content += '</tbody></table>';
+
+                    $('#show').hide();
+                    $('#show').html(content);
+                    $('#show').fadeIn('slow');
+
+                }, 'json');
+            });*/
+        });
+
+        function onfetch(k)
+        {
+            $.get('/damn/', {'key':k}, function(d)
+            {
+                content = '<table class="show-tab" cellpadding="0" cellspacing="0"><tbody>';
+                content += '<tr><td class="show-head">名字</td><td>' + _html_escape(d.name) + '</td></tr>';
+                content += '<tr><td class="show-head">申请时间</td><td>' +_html_escape(d.post_date) + '</td></tr>';
+                content += '<tr><td class="show-head">岗位</td><td>' + _html_escape(d.jobs.join()) + '</td></tr>';
+                content += '<tr><td class="show-head">状态</td><td>' + _html_escape(d.state) + '</td></tr>';
+
+                if (d.reason)
+                {
+                    content += '<tr><td class="show-head">原因</td><td style="white-space:pre-wrap">' + _html_escape(d.reason) + '</td></tr>';
+                }
+                if (d.end_date)
+                {
+                    content += '<tr><td class="show-head">结束时间</td><td>' + _html_escape(d.end_date) + '</td></tr>';
+                }
+                content += '</tbody></table>';
+
+                $('#show').hide();
+                $('#show').html(content);
+                $('#show').fadeIn('slow');
+
+            }, 'json');
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <div id='title'>
+        <h1 class='bigbigbig'>{{ title }}</h1>
+    </div>
+    <div id="tag-cloud" class="float-left">
+        <div id="myCanvasContainer">
+            <canvas width="640" height="540" id="myCanvas">
+                <p>Anything in here will be replaced on browsers that support the canvas element</p>
+            </canvas>
+        </div>
+        <div id="tags">
+            <ul>
+                {% for e in items %}
+                <li><a class='damn' href='javascript:onfetch("{{ e.key() }}");' style='font-size:{{ 48 + [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7]|random }}px;'>{{ e.name|escape }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div id="show" class="float-left"></div>
+    <div class="clear"></div>
+{% endblock %}

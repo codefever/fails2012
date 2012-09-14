@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Admin - {{ title }}</title>
+    <style type="text/css" media="screen">
+        .admin-button {
+            width: 60px;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $('document').ready(function()
+        {
+            $('#add').click(function()
+            {
+                window.location = '/admin-x/item/';
+            });
+
+            $('#admin-del').submit(function()
+            {
+                if ($('input[name="select-del"]:checked').length > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            });
+
+            /*
+            $('#delete').click(function()
+            {
+                var dels = $('input[name=select-del]:checked').map(function()
+                {
+                    return $(this).parent().text();
+                });
+
+                if (dels.length == 0)
+                {
+                    return;
+                }
+
+                window.location = '/admin/del/?dels=' + dels;
+            });*/
+        });
+    </script>
+</head>
+<body>
+    <div id='welcome'>
+        <p><span>Hello {{ username }}!    <a href='{{ logout_url }}'>Logout?</a></span></p>
+    </div>
+    <form id='admin-del' method='post' action='' accept-charset="utf-8">
+        <p><button id='add' class='admin-button'>Add</button>
+        {% if items %}
+            <input type='submit' name='delete' value='Delete' class='admin-button'/>
+            <!-- <button id='delete' style='width:60px;'>Delete</button> -->
+        {% endif %}</p>
+        <div>
+            <ul>
+            {% for e in items %}
+                <li><input type='checkbox' name='select-del' value='{{ e.key() }}' /><a href='/admin-x/item/?k={{ e.key() }}'>{{ e.name|escape }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </form>
+</body>
+</html>

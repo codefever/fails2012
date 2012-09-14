@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{{ title }}</title>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" charset="utf-8">
+    <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    {% block header %}{% endblock %}
+</head>
+<body>
+    <div id="container">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="footer">
+        <p style='float:left'>This site is created by <a href="{{ arthor_link }}" target="_blank">{{ arthor }}</a>.</p><img src="https://developers.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" style='float:right;'/>
+    </div>
+</body>
+</html>

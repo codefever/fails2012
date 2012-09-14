@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    {% if e %}
+        <title>{{ e.name }} - {{ title }}</title>
+    {% else %}
+        <title>New - {{ title }}</title>
+    {% endif %}
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>    
+    <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function()
+        {
+            $('.datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+        });
+    </script>
+    <style type="text/css" media="screen">
+        .admin-button {
+            width: 60px;
+        }
+
+        div.ui-datepicker {
+            font-size:12px;
+        }
+    </style>
+<head>
+<body>
+    <form id='admin-n' method='post' action='' accept-charset='utf-8'>
+        <table>
+            {% if e %}
+                <tr>
+                    <td><label for='name'>名字</label></td>
+                    <td><input type='text' name='name' value='{{ e.name }}'/></td>
+                </tr>
+                <tr>
+                    <td><label for='state'>状态</label></td>
+                    <td><input type='text' name='state' value='{{ e.state }}'/></td>
+                </tr>
+                <tr>
+                    <td><label for='jobs'>岗位</label></td>
+                    <td><input type='text' name='jobs' value='{{ e.jobs|join(",") }}' /></td>
+                </tr>
+                <tr>
+                    <td><label for='post-date'>申请时间</label></td>
+                    <td><input type='text' class='datepicker' name='post-date' value='{{ e.post_date }}' /></td>
+                </tr>
+                <tr>
+                    <td><label for='end-date'>结束时间</label></td>
+                    <td><input type='text' class='datepicker' name='end-date' value='{{ e.end_date }}' /></td>
+                </tr>
+                <tr>
+                    <td><label for='reason'>原因</label></td>
+                    <td>
+                        <textarea name='reason' rows='4' cols='40'>{{ e.reason }}</textarea>
+                    </td>
+                </tr>
+            </table>
+            <input type='submit'/>
+            <input type='hidden' name='key' value='{{ e.key() }}' />
+        {% else %}
+                <tr>
+                    <td><label for='name'>名字</label></td>
+                    <td><input type='text' name='name' value=''/></td>
+                </tr>
+                <tr>
+                    <td><label for='state'>状态</label></td>
+                    <td><input type='text' name='state' value=''/></td>
+                </tr>
+                <tr>
+                    <td><label for='jobs'>岗位</label></td>
+                    <td><input type='text' name='jobs' value='' /></td>
+                </tr>
+                <tr>
+                    <td><label for='post-date'>申请时间</label></td>
+                    <td><input type='text' class='datepicker' name='post-date' value='' /></td>
+                </tr>
+                <tr>
+                    <td><label for='end-date'>结束时间</label></td>
+                    <td><input type='text' class='datepicker' name='end-date' value='' /></td>
+                </tr>
+                <tr>
+                    <td><label for='reason'>原因</label></td>
+                    <td>
+                        <textarea name='reason' rows='4' cols='40'></textarea>
+                    </td>
+                </tr>
+            </table>
+            <input type='submit'/>
+        {% endif %}
+    </form>
+</body>
+</html>
